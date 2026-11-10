@@ -1,0 +1,6 @@
+build/
+Main
+*.o
+answer.zip
+.cache/
+compile_commands.json
