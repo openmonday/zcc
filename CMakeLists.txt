@@ -18,10 +18,24 @@ add_library(zcc_lex STATIC
 )
 target_link_libraries(zcc_lex PUBLIC zcc_basic)
 
+add_library(zcc_parse STATIC
+  src/Parse/Grammar.cpp
+  src/Parse/LR1Table.cpp
+  src/Parse/Translator.cpp
+  src/Parse/Parser.cpp
+)
+target_link_libraries(zcc_parse PUBLIC zcc_lex)
+
 add_executable(zcc-lex tools/zcc-lex/main.cpp)
 target_link_libraries(zcc-lex PRIVATE zcc_lex)
+
+add_executable(zcc-parse tools/zcc-parse/main.cpp)
+target_link_libraries(zcc-parse PRIVATE zcc_parse)
 
 enable_testing()
 add_test(NAME lexer-samples
          COMMAND bash ${CMAKE_CURRENT_SOURCE_DIR}/tests/run-samples.sh
                  $<TARGET_FILE:zcc-lex>)
+add_test(NAME parser-samples
+         COMMAND bash ${CMAKE_CURRENT_SOURCE_DIR}/tests/run-parser-samples.sh
+                 $<TARGET_FILE:zcc-parse>)

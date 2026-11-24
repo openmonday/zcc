@@ -1,10 +1,15 @@
 #!/bin/bash
-# Builds the executable the grader runs: ./Main
+# Builds the executable the grader runs: ./Main (the experiment-2 parser:
+# lexer + LR(1) parser + translator).
 # Keep the source list in sync with CMakeLists.txt when files are added.
 set -eu
 
-g++ -std=c++17 -O1 -Wall -Wextra -Iinclude -c src/Basic/SourceFile.cpp -o source_file.o
-g++ -std=c++17 -O1 -Wall -Wextra -Iinclude -c src/Lex/Lexer.cpp -o lexer.o
-g++ -std=c++17 -O1 -Wall -Wextra -Iinclude -c tools/zcc-lex/main.cpp -o main.o
-
-g++ source_file.o lexer.o main.o -o Main -lm
+g++ -std=c++17 -O1 -Wall -Wextra -Iinclude \
+  src/Basic/SourceFile.cpp \
+  src/Lex/Lexer.cpp \
+  src/Parse/Grammar.cpp \
+  src/Parse/LR1Table.cpp \
+  src/Parse/Translator.cpp \
+  src/Parse/Parser.cpp \
+  tools/zcc-parse/main.cpp \
+  -o Main
